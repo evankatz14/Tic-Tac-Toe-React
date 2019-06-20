@@ -1,0 +1,34 @@
+.main {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.Board {
+    flex-wrap: wrap;
+    max-width: 235px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* margin-left: 50%; */
+    text-align: center;
+}
+
+.button {
+    display: flex;
+    border-width: 4px;
+    border-style: solid;
+    width: 75px;
+    height: 75px;
+    justify-content: center;
+    margin-top: 5px;
+    font-size: 40px;
+}
+.reset {
+    margin-top: 20px;
+}
+
+
