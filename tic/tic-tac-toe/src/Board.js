@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Square from './Square'
+import ScoreBoard from './ScoreBoard'
 import './App.css';
 
 class Board extends Component {
@@ -36,7 +37,8 @@ class Board extends Component {
     renderSquare = (i) => {
         return <Square
                     value = {this.state.squares[i]}
-                    handleClick = {() => this.handleClick(i)}
+                    index = {i}
+                    handleClick = {this.handleClick}
                 />
     }
 
@@ -45,6 +47,7 @@ class Board extends Component {
         let newTurn = this.state.xTurn
         let oWins = this.state.oWins
         let xWins = this.state.xWins
+        
         if(newSquares[i] === null && !this.winner(newSquares)){
             if(newTurn === true){
                 newSquares[i] = 'X'
@@ -57,25 +60,19 @@ class Board extends Component {
         
         if(this.winner(newSquares) || newSquares.indexOf(null) === -1){
             if(this.winner(newSquares) === 'X'){
+                let winner = this.winner(newSquares)
                 xWins++
-                alert(`${this.winner(newSquares)} wins!`)
+                setTimeout(function() {alert(`${winner} wins!`)}, 250)
             } else if(this.winner(newSquares) === 'O') {
+                let winner = this.winner(newSquares)
                 oWins++
-                alert(`${this.winner(newSquares)} wins!`)
+                setTimeout(function() {alert(`${winner} wins!`)}, 250)
             } 
             
-            alert("Reset for new board!")
+            setTimeout(function() {alert("Reset for new board!")}, 250)
         }
         
-        // if (newSquares.indexOf(null) === -1){
-        //     alert("Reset for new board!")
-        // }
-        
         this.setState({squares: newSquares, xTurn: newTurn, xWins: xWins, oWins: oWins})
-    }
-
-    handleChange(){
-        this.props.updateStatus(this.state.squares)
     }
     
     resetBoard = () => {
@@ -83,56 +80,26 @@ class Board extends Component {
         let resetTurn = true
         this.setState({squares: resetArr, xTurn: resetTurn})
     }
-    
-    scoreBoard
-    //which updates updates the array (Board state)
-    //then this back to square to update that cell/squares
 
     render(){
         const status = `It is ${this.state.xTurn ? 'X' : 'O'}'s turn`
+        const {squares, oWins, xWins} = this.state
       return (
           <div className="page">
             <div className = "status" >
                 {status}
             </div>
             <div className="Board" >
-                <div
-                    className="cell">
-                    {this.renderSquare(0)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(1)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(2)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(3)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(4)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(5)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(6)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(7)}
-                </div>
-                <div
-                    className="cell">
-                    {this.renderSquare(8)}
-                </div>
-             </div>
+                {squares.map((value, index) => {
+                    return <div>
+                                {this.renderSquare(index)}
+                           </div>
+                })}
+            </div>
+            <scoreBoard
+                oWins = {oWins}
+                xWins = {xWins}
+            />
             <button className="reset" onClick={this.resetBoard}>Reset the Board</button>
           </div>
       )
